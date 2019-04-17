@@ -4,7 +4,7 @@
 //
 package collector
 
-import "github.com/statsd/system/pkg/resource"
+import "github.com/AITRICS/system/pkg/resource"
 import "github.com/statsd/client-namespace"
 import "github.com/statsd/client-interface"
 import "github.com/segmentio/go-log"
