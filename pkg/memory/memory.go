@@ -70,6 +70,7 @@ func (m *Memory) Report() {
 				m.client.Gauge("total", bytes(stat.MemTotal))
 				m.client.Gauge("used", bytes(used(stat)))
 				m.client.Gauge("free", bytes(stat.MemFree))
+				m.client.Gauge("available", bytes(available(stat)))
 				m.client.Gauge("active", bytes(stat.Active))
 				m.client.Gauge("swap.total", bytes(stat.SwapTotal))
 				m.client.Gauge("swap.free", bytes(stat.SwapFree))
@@ -115,7 +116,11 @@ func percent(s *linux.MemInfo) int {
 
 // used memory.
 func used(s *linux.MemInfo) uint64 {
-	return s.MemTotal - s.MemFree - s.Buffers - s.Cached
+	return s.MemTotal - available(s)
+}
+
+func available(s *linux.MemInfo) uint64 {
+	return s.MemFree + s.Buffers + s.Cached
 }
 
 // convert to bytes.
